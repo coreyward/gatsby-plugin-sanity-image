@@ -1,0 +1,9 @@
+node_modules
+yarn-error.log
+gatsby-node.js
+gatsby-browser.js
+gatsby-ssr.js
+fragments.js
+
+index.js
+!src/*.js
