@@ -14,16 +14,14 @@
     "fragments.js"
   ],
   "dependencies": {
-    "@emotion/core": "~10.1.1"
+    "@emotion/core": "~10.1.1",
+    "@sanity/client": "^2.0.1",
+    "@sanity/image-url": "^0.140.19"
   },
   "peerDependencies": {
-    "@sanity/client": "^2.0.1",
-    "@sanity/image-url": "^0.140.19",
     "react": "^16.8.0"
   },
   "devDependencies": {
-    "@sanity/client": "^2.0.1",
-    "@sanity/image-url": "^0.140.19",
     "esbuild": "^0.8.13",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
