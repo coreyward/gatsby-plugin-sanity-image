@@ -1,3 +1,5 @@
+const fs = require("fs").promises
+const path = require("path")
 const esbuild = require("esbuild")
 
 const sharedConfig = {
@@ -18,6 +20,12 @@ const handleError = (e) => {
   console.error(e)
   process.exit(1)
 }
+
+// Copy GraphQL fragments file directly
+fs.copyFile(
+  path.resolve(__dirname, "src", "fragments.js"),
+  path.resolve(__dirname, "fragments.js")
+)
 
 // Client-side (browser) targeted files
 esbuild
@@ -42,7 +50,7 @@ esbuild
 esbuild
   .build({
     ...sharedConfig,
-    entryPoints: ["src/gatsby-node.js", "src/fragments.js"],
+    entryPoints: ["src/gatsby-node.js"],
     platform: "node",
   })
   .catch(handleError)
