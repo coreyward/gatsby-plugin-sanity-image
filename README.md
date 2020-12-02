@@ -14,6 +14,47 @@ been looking for.
 - Configure image quality, resizing behavior, file format, and more with
   [Sanity’s Image API](https://www.sanity.io/docs/image-urls)
 
+## At a Glance
+
+You can find the full writeup on getting going below, but in the interest of
+making it easy to see if this is the thing you are looking for, here’s what
+using it looks like:
+
+```jsx
+import Image from "gatsby-plugin-sanity-image"
+
+const YourSweetComponent = ({ image }) => (
+  <Image
+    // pass thru asset, hotspot, and crop fields as props
+    {...image}
+    // set the target image dimensions (won't affect styles,
+    // just the dimensions in the srcSet generated)
+    width={500}
+    height={300}
+    // fancy some Emotion styles? not a problem.
+    css={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+    }}
+  />
+)
+
+export default YourSweetComponent
+
+export const query = graphql`
+  {
+    sanityDocumentOfSomeKind {
+      sweetImage {
+        ...ImageWithPreview
+      }
+    }
+  }
+`
+```
+
+That’s the gist, folks. Read on for the full scoop!
+
 ## Getting Started
 
 ### Install it
@@ -31,6 +72,18 @@ below is a shorthand notation.
 Know what y’er doin’? Here’s the copy pasta:
 
 ```js
+
+// Simple configuration:
+{
+  resolve: "gatsby-plugin-sanity-image",
+  options: {
+    // Sanity project info (required)
+    projectId: "abcd1234",
+    dataset: "production",
+  },
+}
+
+// Full configuration:
 {
   resolve: "gatsby-plugin-sanity-image",
   options: {
@@ -46,6 +99,27 @@ Know what y’er doin’? Here’s the copy pasta:
       fit: "max",
       auto: "format",
     },
+
+    // If you prefer a different fragment name, such
+    // as `MagicImage`, enter it here. This needs to
+    // be unique your GraphQL types. `WithPreview`
+    // will be appended for the second fragment (e.g.
+    // MagicImageWithPreview).
+    fragmentName: "Image",
+
+    // By default, image fields are typed as SanityImage,
+    // but there are cases where you might want to use
+    // a custom schema or where custom image types are
+    // not under the SanityImage type. In this case, you
+    // can alter the type that the fragment is defined
+    // on here without redefining the fragments.
+    fragmentType: "SanityImage",
+
+    // If you prefer to retreive data another way or
+    // if you want to define the fragment you use
+    // separately, you can opt-out of having fragments
+    // included entirely.
+    includeFragments: true,
   },
 }
 ```

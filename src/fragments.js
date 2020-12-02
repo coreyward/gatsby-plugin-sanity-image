@@ -1,7 +1,7 @@
 import { graphql } from "gatsby"
 
 export const fragments = graphql`
-  fragment Image on SanityImage {
+  fragment __FRAGMENT_NAME__ on __FRAGMENT_TYPE_NAME__ {
     hotspot {
       height
       width
@@ -19,7 +19,7 @@ export const fragments = graphql`
     }
   }
 
-  fragment ImageWithPreview on SanityImage {
+  fragment __FRAGMENT_NAME__WithPreview on __FRAGMENT_TYPE_NAME__ {
     ...Image
     asset {
       metadata {
