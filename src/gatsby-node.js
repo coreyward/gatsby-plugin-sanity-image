@@ -39,7 +39,7 @@ exports.onPreExtractQueries = async (
 // Make plugin options available to configuration constants
 exports.onCreateWebpackConfig = (
   { stage, rules, loaders, plugins, actions },
-  { dataset, projectId, useCdn, defaultImageConfig = null }
+  { dataset, projectId, useCdn = true, defaultImageConfig = null }
 ) => {
   actions.setWebpackConfig({
     plugins: [
