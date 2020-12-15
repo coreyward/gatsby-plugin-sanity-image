@@ -217,13 +217,13 @@ SanityImage.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       metadata: PropTypes.shape({
-        preview: PropTypes.string.isRequired,
+        preview: PropTypes.string,
       }),
     }),
     PropTypes.shape({
       _ref: PropTypes.string.isRequired,
       metadata: PropTypes.shape({
-        preview: PropTypes.string.isRequired,
+        preview: PropTypes.string,
       }),
     }),
   ]).isRequired,
