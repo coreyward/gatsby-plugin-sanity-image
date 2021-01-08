@@ -113,7 +113,7 @@ Know what y’er doin’? Here’s the copy pasta:
     // not under the SanityImage type. In this case, you
     // can alter the type that the fragment is defined
     // on here without redefining the fragments.
-    fragmentType: "SanityImage",
+    fragmentTypeName: "SanityImage",
 
     // If you prefer to retreive data another way or
     // if you want to define the fragment you use
