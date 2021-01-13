@@ -27,7 +27,7 @@
     "fragments.js"
   ],
   "dependencies": {
-    "@emotion/core": "~10.1.1",
+    "@emotion/core": "^10.1.1",
     "@sanity/client": "^2.0.1",
     "@sanity/image-url": "^0.140.19"
   },
