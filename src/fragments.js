@@ -20,7 +20,7 @@ export const fragments = graphql`
   }
 
   fragment __FRAGMENT_NAME__WithPreview on __FRAGMENT_TYPE_NAME__ {
-    ...Image
+    ...__FRAGMENT_NAME__
     asset {
       metadata {
         preview: lqip
