@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.3.0
+
+- Introduces `customImageType` configuration option.
+
 ## v0.2.x
 
 Introduces options for configuring the name and type of GraphQL fragments
