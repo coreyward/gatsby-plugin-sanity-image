@@ -8,6 +8,7 @@ exports.onPreExtractQueries = async (
     includeFragments = true,
     fragmentName = "Image",
     fragmentTypeName = "SanityImage",
+    customImageTypes = [],
   }
 ) => {
   // No fragments? No problem.
@@ -16,6 +17,15 @@ exports.onPreExtractQueries = async (
   // Abort if there are no SanityImage types in the data
   const nodes = getNodes()
   if (!nodes.some((node) => node.internal.type === "SanityImageAsset")) return
+
+  // If custom image types are provided but the fragment type name
+  // hasn't been customized, we need to change it to prevent collision
+  // with the `SanityImage` type provided by gatsby-source-sanity.
+  if (customImageTypes.length)
+    fragmentTypeName =
+      fragmentTypeName === "SanityImage"
+        ? "SanityImageEntity"
+        : fragmentTypeName
 
   const fragments = await fs
     .readFile(path.resolve(__dirname, "fragments.js"))
@@ -53,6 +63,40 @@ exports.onCreateWebpackConfig = (
       }),
     ],
   })
+}
+
+// Enable fragment support for custom Sanity image types
+exports.sourceNodes = (
+  { actions: { createTypes } },
+  { customImageTypes = [], fragmentTypeName = "SanityImage" }
+) => {
+  if (!customImageTypes || customImageTypes.length === 0) return
+
+  // If a custom name for the fragment type has been provided, it will
+  // be used to declare the interface for all image types
+  const interfaceTypeName =
+    fragmentTypeName === "SanityImage" ? "SanityImageEntity" : fragmentTypeName
+
+  const imageFields = `
+    asset: SanityImageAsset
+    hotspot: SanityImageHotspot
+    crop: SanityImageCrop
+  `
+
+  const typeDefs = ["SanityImage", ...customImageTypes]
+    .map(
+      (type) =>
+        `type ${type} implements ${interfaceTypeName} { ${imageFields} }`
+    )
+    .join("\n\n")
+
+  createTypes(`
+    interface ${interfaceTypeName} {
+      ${imageFields}
+    }
+
+    ${typeDefs}
+  `)
 }
 
 const replaceFragmentName = (fragmentName) => (data) =>

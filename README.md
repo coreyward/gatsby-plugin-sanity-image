@@ -120,6 +120,10 @@ Know what y’er doin’? Here’s the copy pasta:
     // separately, you can opt-out of having fragments
     // included entirely.
     includeFragments: true,
+
+    // Custom image types are also supported; refer to
+    // full documentation for usage instructions.
+    customImageTypes: [],
   },
 }
 ```
@@ -235,6 +239,13 @@ zindex: -10;
 pointerevents: none;
 userselect: none;
 ```
+
+## Custom Image Types
+
+If you would like to use the `Image` and `ImageWithPreview` fragments on custom
+image types, specify all custom type names in the `customImageTypes` array. For
+more detail,
+[follow this guide](https://github.com/coreyward/gatsby-plugin-sanity-image/wiki/Custom-Sanity-Image-Types).
 
 ## More things to know
 
