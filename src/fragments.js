@@ -16,6 +16,7 @@ export const fragments = graphql`
     }
     asset {
       _id
+      __OPTIONAL_ALT_SUPPORT__
     }
   }
 

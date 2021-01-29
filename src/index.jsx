@@ -41,6 +41,11 @@ const SanityImage = ({
 }) => {
   const { metadata: { preview } = {} } = asset
 
+  // Fallback to asset.<alt> if no `alt` prop provided, if configured
+  if (__GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__) {
+    props.alt = props.alt ?? asset[__GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__]
+  }
+
   asset = {
     _id: asset._id || asset._ref,
     hotspot,
@@ -194,7 +199,9 @@ const ImageWithPreview = ({ preview, ...props }) => {
 ImageWithPreview.propTypes = {
   preview: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
+  alt: __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__
+    ? PropTypes.string
+    : PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
@@ -236,7 +243,9 @@ SanityImage.propTypes = {
   size: PropTypes.arrayOf(PropTypes.number),
 
   // Default React Element Props
-  alt: PropTypes.string.isRequired,
+  alt: __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__
+    ? PropTypes.string
+    : PropTypes.string.isRequired,
   className: PropTypes.string,
   sizes: PropTypes.string,
 

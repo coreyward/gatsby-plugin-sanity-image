@@ -9,6 +9,7 @@ exports.onPreExtractQueries = async (
     fragmentName = "Image",
     fragmentTypeName = "SanityImage",
     customImageTypes = [],
+    altFieldName,
   }
 ) => {
   // No fragments? No problem.
@@ -34,6 +35,9 @@ exports.onPreExtractQueries = async (
     .then(replaceFragmentName(fragmentName))
     .then(replaceFragmentTypeName(fragmentTypeName))
 
+    // and configure support for alt text on the Asset
+    .then(configureAltTextSupport(altFieldName))
+
   const { program } = store.getState()
   const basePath = program.directory
 
@@ -49,7 +53,7 @@ exports.onPreExtractQueries = async (
 // Make plugin options available to configuration constants
 exports.onCreateWebpackConfig = (
   { stage, rules, loaders, plugins, actions },
-  { dataset, projectId, useCdn = true, defaultImageConfig = null }
+  { dataset, projectId, altFieldName, useCdn = true, defaultImageConfig = null }
 ) => {
   actions.setWebpackConfig({
     plugins: [
@@ -57,6 +61,7 @@ exports.onCreateWebpackConfig = (
         __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: JSON.stringify(dataset),
         __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: JSON.stringify(projectId),
         __GATSBY_PLUGIN_SANITY_IMAGE__USECDN__: JSON.stringify(useCdn),
+        __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: JSON.stringify(altFieldName),
         __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__: JSON.stringify(
           defaultImageConfig
         ),
@@ -104,3 +109,6 @@ const replaceFragmentName = (fragmentName) => (data) =>
 
 const replaceFragmentTypeName = (fragmentTypeName) => (data) =>
   bufferReplace(data, "__FRAGMENT_TYPE_NAME__", fragmentTypeName)
+
+const configureAltTextSupport = (altFieldName) => (data) =>
+  bufferReplace(data, "__OPTIONAL_ALT_SUPPORT__", altFieldName || "")
