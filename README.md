@@ -25,14 +25,13 @@ import Image from "gatsby-plugin-sanity-image"
 
 const YourSweetComponent = ({ image }) => (
   <Image
-    // pass thru asset, hotspot, and crop fields as props
+    // pass asset, hotspot, and crop fields
     {...image}
-    // set the target image dimensions (won't affect styles,
-    // just the dimensions in the srcSet generated)
+    // tell Sanity how large to make the image (does not set any CSS)
     width={500}
     height={300}
-    // fancy some Emotion styles? not a problem.
-    css={{
+    // style it how you want it
+    style={{
       width: "100%",
       height: "100%",
       objectFit: "cover",
@@ -65,15 +64,13 @@ yarn add gatsby-plugin-sanity-image
 
 ### Configure it
 
-If this is your first time adding a Gatsby plugin, be sure to
-[read this guide first](https://www.gatsbyjs.com/docs/using-a-plugin-in-your-site/)—the
-below is a shorthand notation.
+> ℹ️ **Note**: If this is your first time adding a Gatsby plugin, be sure to
+> [read this guide first](https://www.gatsbyjs.com/docs/using-a-plugin-in-your-site/)—the
+> below is a shorthand notation.
 
-Know what y’er doin’? Here’s the copy pasta:
+Simple configuration:
 
 ```js
-
-// Simple configuration:
 {
   resolve: "gatsby-plugin-sanity-image",
   options: {
@@ -82,7 +79,12 @@ Know what y’er doin’? Here’s the copy pasta:
     dataset: "production",
   },
 }
+```
 
+<details>
+  <summary>Expand the full configuration example</summary>
+
+```js
 // Full configuration:
 {
   resolve: "gatsby-plugin-sanity-image",
@@ -121,12 +123,20 @@ Know what y’er doin’? Here’s the copy pasta:
     // included entirely.
     includeFragments: true,
 
+    // This config directive allows you to specify the
+    // field that should be retrieved and used as alt
+    // text when no `alt` prop is passed to the image
+    // component. See docs for more detail.
+    altTextField: "alt",
+
     // Custom image types are also supported; refer to
     // full documentation for usage instructions.
     customImageTypes: [],
   },
 }
 ```
+
+</details>
 
 Don’t forget to restart `gatsby develop` after you update your
 `gatsby-config.js`!
@@ -137,7 +147,7 @@ Don’t forget to restart `gatsby develop` after you update your
 2. Pass the retrieved fields as props to the `SanityImage` component
 3. Use it like normal—it's just an `img` tag! 🤯😇
 
-### Quering for image data via GraphQL
+### Querying for image data via GraphQL
 
 This plugin includes two GraphQL fragments that will fetch the fields needed for
 display from any Sanity image asset. You do not have to use them, but they are
@@ -187,13 +197,14 @@ const YourComponent = ({ yourImageFieldData }) =>
   <SanityImage {...yourImageFieldData} width={300} alt="Sweet Christmas!">
 ```
 
-This renders an image tag like the following:
+<details>
+  <summary>This renders an image tag like this:</summary>
 
 ```html
 <!--
   Using {baseUrl} below to refer to a string with this format:
   https://cdn.sanity.io/images/{projectId}/{dataset}/{imageId}?w=300&amp;h=600&amp;q=75&amp;fit=max&amp;auto=format
- -->
+-->
 <img
   src="{baseUrl}"
   srcset="
@@ -209,6 +220,8 @@ This renders an image tag like the following:
 />
 ```
 
+</details>
+
 Note that `SanityImage` is not doing anything to style your image based on the
 width or height you provide (aside from setting a class with `object-position`
 set, should you choose to use it). In practice, it's rare that these values
@@ -219,7 +232,8 @@ Instead you can style the resulting `img` tag just like any other element.
 `SanityImage` will pass through `className` and `style` props, and it makes no
 assumptions about your image presentation.
 
-#### Minor gotchas with deferred loading
+<details>
+  <summary><strong>⚠️ Minor gotchas with deferred loading</strong></summary>
 
 `SanityImage` is relying on browser-native deferred image loading. This
 generally works fine in browsers that support it, but there are situations where
@@ -240,12 +254,32 @@ pointerevents: none;
 userselect: none;
 ```
 
-## Custom Image Types
+</details>
 
-If you would like to use the `Image` and `ImageWithPreview` fragments on custom
-image types, specify all custom type names in the `customImageTypes` array. For
-more detail,
-[follow this guide](https://github.com/coreyward/gatsby-plugin-sanity-image/wiki/Custom-Sanity-Image-Types).
+## Configuration Directives
+
+<sub>\*️⃣ = Required</sub>
+
+| Option               | Type    | Default         | Description                                                                                                                                                                                                                                                                                                                                                                               |
+| -------------------- | ------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `projectId` \*️⃣      | String  |                 | Sanity Project ID                                                                                                                                                                                                                                                                                                                                                                         |
+| `dataset` \*️⃣        | String  |                 | Sanity Dataset ID                                                                                                                                                                                                                                                                                                                                                                         |
+| `fragmentName`       | String  | `"Image"`       | If you prefer a different fragment name, such as `MagicImage`, enter it here. This needs to be unique your GraphQL types. `WithPreview` will be appended for the second fragment (e.g. MagicImageWithPreview).                                                                                                                                                                            |
+| `fragmentTypeName`   | String  | `"SanityImage"` | By default, image fields are typed as SanityImage, but there are cases where you might want to use a custom schema or where custom image types are not under the `SanityImage` type. In this case, you can alter the type that the fragment is defined on without redefining the fragments.                                                                                               |
+| `includeFragments`   | Boolean | `true`          | If you prefer to retreive data another way or if you want to define the fragment you use separately, you can opt-out of having fragments included entirely.                                                                                                                                                                                                                               |
+| `customImageTypes`   | Array   | `[]`            | If you would like to use the `Image` and `ImageWithPreview` fragments on custom image types, specify all custom type names in the `customImageTypes` array. For more detail, [follow this guide](https://github.com/coreyward/gatsby-plugin-sanity-image/wiki/Custom-Sanity-Image-Types).                                                                                                 |
+| `altTextField`       | String  | `null`          | If you are adding alt text directly to image assets in your Sanity Studio (e.g. via a plugin like [sanity-plugin-media](https://github.com/robinpyon/sanity-plugin-media/)), this plugin can include that field in the `Image` and `ImageWithPreview` fragments and utilize it as the default/fallback `alt` attribute value when no `alt` prop is passed to the `SanityImage` component. |
+| `defaultImageConfig` | Object  | See below.      | Additional params to pass to the Sanity image URL builder. These will be converted into function calls against `@sanity/image-url`. [Here is the full list of methods available](https://www.sanity.io/docs/image-url).                                                                                                                                                                   |
+
+The default value for `defaultImageConfig` is as follows:
+
+```js
+{
+  quality: 75,   // use reasonable lossy compression level
+  fit: "max",    // like `object-fit: contain`, but never scaling up
+  auto: "format" // automatically select next-gen image formats on supporting browsers
+}
+```
 
 ## More things to know
 
