@@ -1,7 +1,0 @@
-.eslintrc.js
-.gitignore
-.prettierrc
-build.js
-node_modules
-src
-yarn.lock
