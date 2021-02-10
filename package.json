@@ -16,11 +16,13 @@
     "graphql"
   ],
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": "https://github.com/coreyward/gatsby-plugin-sanity-image",
   "author": "Corey Ward <corey@hey.com>",
   "license": "MPL-2.0",
   "files": [
     "index.js",
+    "index.d.ts",
     "gatsby-node.js",
     "gatsby-ssr.js",
     "gatsby-browser.js",
@@ -35,6 +37,8 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
+    "@types/node": "^14.14.25",
+    "@types/react": "^17.0.1",
     "esbuild": "^0.8.13",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
@@ -48,13 +52,14 @@
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.1.2",
     "prop-types": "^15.7.2",
-    "react": "^17.0.0"
+    "react": "^17.0.0",
+    "typescript": "^4.1.4"
   },
   "resolutions": {
     "chokidar": "^3.4.0"
   },
   "scripts": {
-    "build": "node ./build.js",
-    "prepublish": "yarn run build"
+    "prebuild": "tsc",
+    "build": "node ./build.js"
   }
 }

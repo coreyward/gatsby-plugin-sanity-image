@@ -6,4 +6,5 @@ gatsby-ssr.js
 fragments.js
 
 index.js
+index.d.ts
 !src/*.js
