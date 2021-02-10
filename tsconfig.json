@@ -1,0 +1,11 @@
+{
+  "files": ["./src/index"],
+  "exclude": [],
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./",
+    "esModuleInterop": true
+  }
+}

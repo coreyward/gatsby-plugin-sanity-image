@@ -3,5 +3,7 @@
 .prettierrc
 build.js
 node_modules
+README.md
 src
+tsconfig.json
 yarn.lock
