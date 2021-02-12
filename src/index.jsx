@@ -39,7 +39,7 @@ const SanityImage = ({
 
   ...props
 }) => {
-  const { metadata: { preview } = {} } = asset
+  const preview = asset.metadata?.preview || asset.metadata?.lqip
 
   // Fallback to asset.<alt> if no `alt` prop provided, if configured
   if (__GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__) {
@@ -226,12 +226,14 @@ SanityImage.propTypes = {
       _id: PropTypes.string.isRequired,
       metadata: PropTypes.shape({
         preview: PropTypes.string,
+        lqip: PropTypes.string,
       }),
     }),
     PropTypes.shape({
       _ref: PropTypes.string.isRequired,
       metadata: PropTypes.shape({
         preview: PropTypes.string,
+        lqip: PropTypes.string,
       }),
     }),
   ]).isRequired,
