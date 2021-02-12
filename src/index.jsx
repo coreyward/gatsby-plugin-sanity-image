@@ -95,6 +95,7 @@ const buildSrc = (asset, { width, height, ...config }) => {
 
 const buildSrcSet = (asset, config) => {
   const { dimensions } = parseImageRef(asset._id)
+  const fitMode = config.fit || DEFAULT_IMAGE_CONFIG.fit
 
   // Determine dimensions and ratios for srcSet calculations
   const origRatio = dimensions.width / dimensions.height
@@ -130,7 +131,7 @@ const buildSrcSet = (asset, config) => {
       const size = Math.round(
         // For modes where Sanity will not scale up, determine
         // the anticipated final width based on the params
-        ["fillmax", "max", "min"].includes(config.fit)
+        ["fillmax", "max", "min"].includes(fitMode)
           ? targetRatio < origRatio
             ? Math.min(
                 (maxHeight / (height * dpr)) * (width * dpr),
