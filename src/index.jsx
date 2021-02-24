@@ -170,7 +170,9 @@ const ImageWithPreview = ({ preview, ...props }) => {
         <img
           src={preview}
           alt={props.alt}
+          id={props.id}
           className={props.className}
+          style={props.style}
           data-lqip
         />
       )}
@@ -203,7 +205,9 @@ ImageWithPreview.propTypes = {
   alt: __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__
     ? PropTypes.string
     : PropTypes.string.isRequired,
+  id: PropTypes.string,
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 SanityImage.propTypes = {
