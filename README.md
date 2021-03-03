@@ -256,6 +256,37 @@ userselect: none;
 
 </details>
 
+## Component Props
+
+For convenience, `__typename`, `_type`, and `_key` props will be ignored. Other
+props will be passed through to the final `img` element (e.g. native HTML
+attributes).
+
+<sub>\*️⃣ = Required</sub>
+
+| Prop        | Type   | Description                                                                                                                                                                                                |
+| ----------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `asset` \*️⃣ | Object | The `asset` object fetched from GraphQL. Should have an `_id` property on it, and possibly `metadata` (if you're using low-quality image previews).                                                        |
+| `crop`      | Object | The `crop` values fetched from GraphQL (`top`, `right`, `bottom`, and `left`)                                                                                                                              |
+| `hotspot`   | Object | The `hotspot` values fetch from GraphQL (`width`, `height`, `x`, and `y`)                                                                                                                                  |
+| `width` \*️⃣ | Number | This will be used as a target value to generate a `srcSet` of images both smaller and larger.                                                                                                              |
+| `height`    | Number | Used to further constrain the image. Note: due to [a bug in the `@sanity/image-url` library](https://github.com/sanity-io/image-url/issues/32), setting this will cause `fit` modes to be largely ignored. |
+| `config`    | Object | Parameters for `@sanity/image-url`. [Full list here](https://www.sanity.io/docs/image-url).                                                                                                                |
+| `options`   | Object | See below.                                                                                                                                                                                                 |
+
+### Options
+
+<details>
+  <summary><code>__experimentalAspectRatio</code> (Boolean)</summary>
+
+If enabled, `SanityImage` will attempt to compute the final aspect ratio and use
+it to set `width` and `height` attributes on both the low-quality preview image
+as well as the final image. This does not currently take into account any
+`config` options, including `fit` modes or transforming options like `rect` or
+`orientation`.
+
+</details>
+
 ## Configuration Directives
 
 <sub>\*️⃣ = Required</sub>
