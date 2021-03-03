@@ -26,7 +26,6 @@ const SanityImage = ({
   crop,
   width,
   height,
-  size,
   config = {},
 
   // Swallowing these params for convenience
@@ -247,7 +246,6 @@ SanityImage.propTypes = {
   // render the image instead.
   width: PropTypes.number,
   height: PropTypes.number,
-  size: PropTypes.arrayOf(PropTypes.number),
 
   // Default React Element Props
   alt: __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__
