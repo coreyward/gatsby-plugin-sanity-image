@@ -29,7 +29,6 @@ const YourSweetComponent = ({ image }) => (
     {...image}
     // tell Sanity how large to make the image (does not set any CSS)
     width={500}
-    height={300}
     // style it how you want it
     style={{
       width: "100%",
