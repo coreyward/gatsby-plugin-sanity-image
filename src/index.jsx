@@ -71,6 +71,10 @@ const SanityImage = ({
     // image params that transform the final output dimensions in this
     // early proof-of-concept version.
     const { dimensions } = parseImageRef(asset._id)
+
+    // If `crop` isn't set, use fallback values.
+    crop = crop || { left: 0, right: 0, top: 0, bottom: 0 }
+
     const croppedWidth = dimensions.width * (1 - crop.left - crop.right)
     const croppedHeight = dimensions.height * (1 - crop.top - crop.bottom)
     const ratio = croppedWidth / croppedHeight
