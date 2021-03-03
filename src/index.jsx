@@ -26,6 +26,7 @@ const SanityImage = ({
   crop,
   width,
   height,
+  options = {},
   config = {},
 
   // Swallowing these params for convenience
@@ -59,6 +60,24 @@ const SanityImage = ({
   // Create default src and build srcSet
   const src = buildSrc(asset, { ...config, width, height })
   const srcSet = buildSrcSet(asset, { ...config, width, height })
+
+  if (options.__experimentalAspectRatio) {
+    // If enabled, this will estimate the final aspect ratio based on
+    // the dimensions of the original image and the crop parameter,
+    // then use this aspect ratio to apply `width` and `height` attrs
+    // to both the preview and final images.
+    //
+    // Note: No attempts are made to compensate for the `fit` mode or
+    // image params that transform the final output dimensions in this
+    // early proof-of-concept version.
+    const { dimensions } = parseImageRef(asset._id)
+    const croppedWidth = dimensions.width * (1 - crop.left - crop.right)
+    const croppedHeight = dimensions.height * (1 - crop.top - crop.bottom)
+    const ratio = croppedWidth / croppedHeight
+
+    props.width = width || dimensions.width
+    props.height = Math.round(props.width / ratio)
+  }
 
   const Image = preview ? ImageWithPreview : "img"
 
@@ -172,6 +191,8 @@ const ImageWithPreview = ({ preview, ...props }) => {
           id={props.id}
           className={props.className}
           style={props.style}
+          width={props.width}
+          height={props.height}
           data-lqip
         />
       )}
@@ -207,10 +228,15 @@ ImageWithPreview.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
+  width: PropTypes.number,
+  height: PropTypes.number,
 }
 
 SanityImage.propTypes = {
   config: PropTypes.object,
+  options: PropTypes.shape({
+    __experimentalAspectRatio: PropTypes.bool,
+  }),
 
   hotspot: PropTypes.shape({
     height: PropTypes.number,
