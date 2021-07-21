@@ -95,6 +95,9 @@ const SanityImage = ({
     }
   }
 
+  if (props.htmlWidth) props.width = props.htmlWidth
+  if (props.htmlHeight) props.height = props.htmlHeight
+
   const Image = preview ? ImageWithPreview : "img"
 
   return (
@@ -288,6 +291,10 @@ SanityImage.propTypes = {
   // render the image instead.
   width: PropTypes.number,
   height: PropTypes.number,
+
+  // These will be passed through to the <img> tag without any changes
+  htmlWidth: PropTypes.number,
+  htmlHeight: PropTypes.number,
 
   // Default React Element Props
   alt: __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__
