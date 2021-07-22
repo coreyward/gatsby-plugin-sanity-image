@@ -8,7 +8,6 @@ const sharedConfig = {
   outdir: ".",
   external: [
     "@emotion/core",
-    "@sanity/client",
     "@sanity/image-url",
     "gatsby",
     "prop-types",

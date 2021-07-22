@@ -30,8 +30,7 @@
   ],
   "dependencies": {
     "@emotion/core": "^10.1.1",
-    "@sanity/client": "^2.0.1",
-    "@sanity/image-url": "^0.140.19"
+    "@sanity/image-url": "^0.140.22"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0"

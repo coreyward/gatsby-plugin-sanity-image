@@ -2,7 +2,6 @@
 import { jsx } from "@emotion/core"
 import { Fragment, useEffect, useRef, useState } from "react"
 import PropTypes from "prop-types"
-import sanityClient from "@sanity/client"
 import sanityImageUrl from "@sanity/image-url"
 
 export const SANITY_REF_PATTERN = /^image-([a-f\d]+)-(\d+x\d+)-(\w+)$/
@@ -13,12 +12,10 @@ export const DEFAULT_IMAGE_CONFIG = __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_
   quality: 75,
 }
 
-export const client = sanityClient({
+export const builder = sanityImageUrl({
   dataset: __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__,
   projectId: __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__,
-  useCdn: __GATSBY_PLUGIN_SANITY_IMAGE__USECDN__,
 })
-export const builder = sanityImageUrl(client)
 
 const SanityImage = ({
   asset,

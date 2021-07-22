@@ -53,14 +53,13 @@ exports.onPreExtractQueries = async (
 // Make plugin options available to configuration constants
 exports.onCreateWebpackConfig = (
   { stage, rules, loaders, plugins, actions },
-  { dataset, projectId, altFieldName, useCdn = true, defaultImageConfig = null }
+  { dataset, projectId, altFieldName, defaultImageConfig = null }
 ) => {
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
         __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: JSON.stringify(dataset),
         __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: JSON.stringify(projectId),
-        __GATSBY_PLUGIN_SANITY_IMAGE__USECDN__: JSON.stringify(useCdn),
         __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: JSON.stringify(altFieldName),
         __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__: JSON.stringify(
           defaultImageConfig
