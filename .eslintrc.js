@@ -19,7 +19,6 @@ module.exports = {
   globals: {
     __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: "readonly",
     __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: "readonly",
-    __GATSBY_PLUGIN_SANITY_IMAGE__USECDN__: "readonly",
     __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: "readonly",
     __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__: "readonly",
   },
