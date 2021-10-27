@@ -1,6 +1,62 @@
 const fs = require("fs").promises
 const path = require("path")
-const bufferReplace = require("./lib/bufferReplace")
+
+const fragmentFields = [
+  {
+    name: "asset",
+    type: "SanityImageAsset",
+    fields: [
+      {
+        name: "_id",
+        type: "String",
+      },
+    ],
+  },
+  {
+    name: "hotspot",
+    type: "SanityImageHotspot",
+    fields: [
+      { name: "height", type: "Float" },
+      { name: "width", type: "Float" },
+      { name: "x", type: "Float" },
+      { name: "y", type: "Float" },
+    ],
+  },
+  {
+    name: "crop",
+    type: "SanityImageCrop",
+    fields: [
+      { name: "bottom", type: "Float" },
+      { name: "left", type: "Float" },
+      { name: "right", type: "Float" },
+      { name: "top", type: "Float" },
+    ],
+  },
+]
+
+const fieldDefinitionToQuery = ({ name, type, fields }) =>
+  fields
+    ? `${name} {\n  ${fields.map(fieldDefinitionToQuery).join("\n  ")}\n}`
+    : name
+
+const fieldDefinitionToType = ({ name, type, fields }) => `${name}: ${type}`
+
+const mergeFieldDefs = (a, b) => [
+  ...a.map((aDef) => {
+    const bMatch = b.find((bDef) => bDef.name === aDef.name)
+    if (bMatch) {
+      return {
+        ...bMatch,
+        fields:
+          aDef.fields && bMatch.fields
+            ? mergeFieldDefs(aDef.fields, bMatch.fields)
+            : aDef.fields || bMatch.fields,
+      }
+    }
+    return aDef
+  }),
+  ...b.filter((bDef) => !a.some((aDef) => aDef.name === bDef.name)),
+]
 
 exports.onPreExtractQueries = async (
   { store, getNodes },
@@ -9,6 +65,7 @@ exports.onPreExtractQueries = async (
     fragmentName = "Image",
     fragmentTypeName = "SanityImage",
     customImageTypes = [],
+    customFields = [],
     altFieldName,
   }
 ) => {
@@ -28,15 +85,40 @@ exports.onPreExtractQueries = async (
         ? "SanityImageEntity"
         : fragmentTypeName
 
-  const fragments = await fs
-    .readFile(path.resolve(__dirname, "fragments.js"))
+  // Merge custom field definitions and asset.<altField> support into field defs
+  const _fragmentFields = [
+    altFieldName && [
+      {
+        name: "asset",
+        fields: [{ name: altFieldName, type: "String" }],
+      },
+    ],
+    customFields.length && customFields,
+  ]
+    .filter(Boolean)
+    .reduce(
+      (output, extensions) => mergeFieldDefs(output, extensions),
+      fragmentFields
+    )
 
-    // Substitute customizable fragment name and type
-    .then(replaceFragmentName(fragmentName))
-    .then(replaceFragmentTypeName(fragmentTypeName))
+  const fragments = `
+    import { graphql } from "gatsby"
 
-    // and configure support for alt text on the Asset
-    .then(configureAltTextSupport(altFieldName))
+    export const fragments = graphql\`
+      fragment ${fragmentName} on ${fragmentTypeName} {
+        ${_fragmentFields.map(fieldDefinitionToQuery).join("\n")}
+      }
+
+      fragment ${fragmentName}WithPreview on ${fragmentTypeName} {
+        ...${fragmentName}
+        asset {
+          metadata {
+            preview: lqip
+          }
+        }
+      }
+    \`
+  `
 
   const { program } = store.getState()
   const basePath = program.directory
@@ -72,7 +154,7 @@ exports.onCreateWebpackConfig = (
 // Enable fragment support for custom Sanity image types
 exports.sourceNodes = (
   { actions: { createTypes } },
-  { customImageTypes = [], fragmentTypeName = "SanityImage" }
+  { customImageTypes = [], customFields = [], fragmentTypeName = "SanityImage" }
 ) => {
   if (!customImageTypes || customImageTypes.length === 0) return
 
@@ -81,16 +163,16 @@ exports.sourceNodes = (
   const interfaceTypeName =
     fragmentTypeName === "SanityImage" ? "SanityImageEntity" : fragmentTypeName
 
-  const imageFields = `
-    asset: SanityImageAsset
-    hotspot: SanityImageHotspot
-    crop: SanityImageCrop
-  `
+  // Merge custom fields with core field definitions to make them available
+  // across all custom types for usage within global image fragments
+  const imageFields = mergeFieldDefs(fragmentFields, customFields)
+    .map(fieldDefinitionToType)
+    .join("\n")
 
   const typeDefs = ["SanityImage", ...customImageTypes]
     .map(
       (type) =>
-        `type ${type} implements ${interfaceTypeName} { ${imageFields} }`
+        `type ${type} implements ${interfaceTypeName} {\n${imageFields}\n}`
     )
     .join("\n\n")
 
@@ -102,12 +184,3 @@ exports.sourceNodes = (
     ${typeDefs}
   `)
 }
-
-const replaceFragmentName = (fragmentName) => (data) =>
-  bufferReplace(data, "__FRAGMENT_NAME__", fragmentName)
-
-const replaceFragmentTypeName = (fragmentTypeName) => (data) =>
-  bufferReplace(data, "__FRAGMENT_TYPE_NAME__", fragmentTypeName)
-
-const configureAltTextSupport = (altFieldName) => (data) =>
-  bufferReplace(data, "__OPTIONAL_ALT_SUPPORT__", altFieldName || "")
