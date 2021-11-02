@@ -143,16 +143,15 @@ exports.onCreateWebpackConfig = (
         __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: JSON.stringify(dataset),
         __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: JSON.stringify(projectId),
         __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: JSON.stringify(altFieldName),
-        __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__: JSON.stringify(
-          defaultImageConfig
-        ),
+        __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__:
+          JSON.stringify(defaultImageConfig),
       }),
     ],
   })
 }
 
 // Enable fragment support for custom Sanity image types
-exports.sourceNodes = (
+exports.createSchemaCustomization = (
   { actions: { createTypes } },
   { customImageTypes = [], customFields = [], fragmentTypeName = "SanityImage" }
 ) => {
