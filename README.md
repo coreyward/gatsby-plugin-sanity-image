@@ -101,18 +101,30 @@ example or the [Configuration Directives](#configuration-directives) below.
     projectId: "abcd1234",
     dataset: "production",
 
-    // This config directive allows you to specify the field that should be
-    // retrieved and used as alt text when no `alt` prop is passed to the image
-    // component. See docs for more detail.
-    altFieldName: "alt",
-
     // Custom image types are also supported. For example, if you have a
     // `mainImage` type in Sanity, it winds up in Gatsby as `SanityMainImage`,
     // and so you would add "SanityMainImage" to the customImageTypes array.
     customImageTypes: [],
 
-    // Additional params to include with every image. This is optional and the
-    // default is shown below. If you like what you see, don’t set it.
+    // This config directive allows you to specify the field that should be
+    // retrieved and used as alt text when no `alt` prop is passed to the image
+    // component. See docs for more detail.
+    altFieldName: "alt",
+
+    // SanityImage will warn you if you do not set an alt prop/attribute. If
+    // you don't want this behavior, you can disable this here. By default this
+    // is only enabled in development.
+    warnOnMissingAlt: process.env.NODE_ENV === "development",
+
+    // When no `alt` prop is available, SanityImage can default to setting an
+    // empty string value. This can prevent accessibility audits from detecting
+    // images that should have an alt value, but enabling it allows you to only
+    // set alt text when it is needed.
+    emptyAltFallback: false,
+
+    // Additional params to pass to @sanity/image-url for every image. The
+    // default is shown here, so you can omit the directive if you are happy
+    // with what you see here.
     defaultImageConfig: {
       quality: 75,
       fit: "max",
@@ -125,8 +137,8 @@ example or the [Configuration Directives](#configuration-directives) below.
     // ########################################################################
 
     // If you prefer a different fragment name, such as `MagicImage`, enter it
-    // here. This needs to be unique your GraphQL types. `WithPreview` will be
-    // appended for the second fragment (e.g. MagicImageWithPreview).
+    // here. This needs to be unique amongst your GraphQL types. `WithPreview`
+    // will be appended for the second fragment (e.g. MagicImageWithPreview).
     fragmentName: "Image",
 
     // By default, image fields are typed as SanityImage, but there are cases
@@ -305,9 +317,11 @@ as well as the final image. This does not currently take into account any
 | `dataset` \*️⃣                 | String  |                 | Sanity Dataset ID                                                                                                                                                                                                                                                                                                                                                                         |
 | `customImageTypes`            | Array   | `[]`            | If you would like to use the `Image` and `ImageWithPreview` fragments on custom image types, specify all custom type names in the `customImageTypes` array. For more detail, [follow this guide](https://github.com/coreyward/gatsby-plugin-sanity-image/wiki/Custom-Sanity-Image-Types).                                                                                                 |
 | `altFieldName`                | String  | `null`          | If you are adding alt text directly to image assets in your Sanity Studio (e.g. via a plugin like [sanity-plugin-media](https://github.com/robinpyon/sanity-plugin-media/)), this plugin can include that field in the `Image` and `ImageWithPreview` fragments and utilize it as the default/fallback `alt` attribute value when no `alt` prop is passed to the `SanityImage` component. |
+| `warnOnMissingAlt`            | Boolean | See note 👉     | SanityImage will warn you if you do not set an alt prop/attribute. If you don't want this behavior, you can disable this here. By default this is only enabled in development.                                                                                                                                                                                                            |
+| `emptyAltFallback`            | Boolean | `false`         | When no `alt` prop is available, SanityImage can default to setting an empty string value. This can prevent accessibility audits from detecting images that should have an alt value, but enabling it allows you to only set alt text when it is needed.                                                                                                                                  |
 | `defaultImageConfig`          | Object  | See below.      | Additional params to pass to the Sanity image URL builder. These will be converted into function calls against `@sanity/image-url`. [Here is the full list of methods available](https://www.sanity.io/docs/image-url).                                                                                                                                                                   |
 | **Less common directives** ⬇️ |         |                 |  It is unlikely you will need to use these. Proceed with caution.                                                                                                                                                                                                                                                                                                                         |
-| `fragmentName`                | String  | `"Image"`       | If you prefer a different fragment name, such as `MagicImage`, enter it here. This needs to be unique your GraphQL types. `WithPreview` will be appended for the second fragment (e.g. MagicImageWithPreview).                                                                                                                                                                            |
+| `fragmentName`                | String  | `"Image"`       | If you prefer a different fragment name, such as `MagicImage`, enter it here. This needs to be unique amongst your GraphQL types. `WithPreview` will be appended for the second fragment (e.g. MagicImageWithPreview).                                                                                                                                                                    |
 | `fragmentTypeName`            | String  | `"SanityImage"` | By default, image fields are typed as SanityImage, but there are cases where you might want to use a custom schema or where custom image types are not under the `SanityImage` type. In this case, you can alter the type that the fragment is defined on without redefining the fragments.                                                                                               |
 | `includeFragments`            | Boolean | `true`          | If you prefer to retreive data another way or if you want to define the fragment you use separately, you can opt-out of having fragments included entirely.                                                                                                                                                                                                                               |
 

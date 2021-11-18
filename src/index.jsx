@@ -46,6 +46,23 @@ const SanityImage = ({
     props.alt = props.alt ?? asset[__GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__]
   }
 
+  // Warn if no `alt` prop provided for image (direct or via asset.<alt>)
+  if (
+    __GATSBY_PLUGIN_SANITY_IMAGE__MISSING_ALT_WARNING__ &&
+    (typeof props.alt === "undefined" || props.alt === null)
+  )
+    logImage(
+      asset._id || asset._ref,
+      `No alt attribute supplied for SanityImage asset: ${
+        asset._id || asset._ref
+      }`
+    )
+
+  if (__GATSBY_PLUGIN_SANITY_IMAGE__EMPTY_ALT_FALLBACK__) {
+    props.alt = props.alt ?? ""
+  }
+
+  // Rebuild `asset` with only the properties needed for the image
   asset = {
     _id: asset._id || asset._ref,
     hotspot,
@@ -337,3 +354,21 @@ export const imageUrl = (asset, params = {}) =>
       builder.image(asset)
     )
     .url()
+
+const logImage = (assetId, message) => {
+  const previewImage = imageUrl(
+    { _id: assetId },
+    { ...DEFAULT_IMAGE_CONFIG, width: 60, height: 60 }
+  )
+
+  console.log(
+    `%c %c${message}`,
+    `
+      background: url("${previewImage}") no-repeat;
+      background-size: contain;
+      padding: calc((30px - 1em) / 2) 15px;
+    `.replace(/\n+/g, " "),
+
+    `padding-left: 20px`
+  )
+}

@@ -135,7 +135,14 @@ exports.onPreExtractQueries = async (
 // Make plugin options available to configuration constants
 exports.onCreateWebpackConfig = (
   { stage, rules, loaders, plugins, actions },
-  { dataset, projectId, altFieldName, defaultImageConfig = null }
+  {
+    dataset,
+    projectId,
+    altFieldName,
+    warnOnMissingAlt = process.env.NODE_ENV === "development",
+    emptyAltFallback = false,
+    defaultImageConfig = null,
+  }
 ) => {
   actions.setWebpackConfig({
     plugins: [
@@ -143,6 +150,10 @@ exports.onCreateWebpackConfig = (
         __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: JSON.stringify(dataset),
         __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: JSON.stringify(projectId),
         __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: JSON.stringify(altFieldName),
+        __GATSBY_PLUGIN_SANITY_IMAGE__MISSING_ALT_WARNING__:
+          JSON.stringify(warnOnMissingAlt),
+        __GATSBY_PLUGIN_SANITY_IMAGE__EMPTY_ALT_FALLBACK__:
+          JSON.stringify(emptyAltFallback),
         __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__:
           JSON.stringify(defaultImageConfig),
       }),
