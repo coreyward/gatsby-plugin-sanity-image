@@ -6,11 +6,12 @@ import sanityImageUrl from "@sanity/image-url"
 
 export const SANITY_REF_PATTERN = /^image-([a-f\d]+)-(\d+x\d+)-(\w+)$/
 
-export const DEFAULT_IMAGE_CONFIG = __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__ || {
-  auto: "format",
-  fit: "max",
-  quality: 75,
-}
+export const DEFAULT_IMAGE_CONFIG =
+  __GATSBY_PLUGIN_SANITY_IMAGE__DEFAULT_IMAGE_CONFIG__ || {
+    auto: "format",
+    fit: "max",
+    quality: 75,
+  }
 
 export const builder = sanityImageUrl({
   dataset: __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__,
@@ -36,6 +37,8 @@ const SanityImage = ({
 
   ...props
 }) => {
+  if (!asset) throw new Error("No `asset` prop was passed to `SanityImage`.")
+
   const preview = asset.metadata?.preview || asset.metadata?.lqip
 
   // Fallback to asset.<alt> if no `alt` prop provided, if configured
