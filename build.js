@@ -9,7 +9,7 @@ const handleError = (e) => {
 esbuild
   .build({
     bundle: true,
-    minify: true,
+    minify: false,
     entryPoints: ["src/index.jsx"],
     outdir: ".",
     external: [
