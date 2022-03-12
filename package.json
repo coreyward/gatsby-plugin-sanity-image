@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-sanity-image",
-  "version": "0.11.0",
+  "version": "0.11.1-alpha.0",
   "description": "Gatsby plugin providing easy responsive behavior for Sanity-hosted images",
   "keywords": [
     "sanity",
@@ -16,12 +16,14 @@
     "graphql"
   ],
   "main": "index.js",
+  "module": "src/index.jsx",
   "types": "index.d.ts",
   "repository": "https://github.com/coreyward/gatsby-plugin-sanity-image",
   "author": "Corey Ward <corey@hey.com>",
   "license": "MPL-2.0",
   "files": [
     "index.js",
+    "index.jsx",
     "index.d.ts",
     "gatsby-node.js"
   ],
