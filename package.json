@@ -26,12 +26,12 @@
     "gatsby-node.js"
   ],
   "dependencies": {
-    "@emotion/core": "^10.1.1",
-    "@sanity/image-url": "^0.140.22"
+    "@emotion/react": "^11.10.0",
+    "@sanity/image-url": "^1.0.1"
   },
   "peerDependencies": {
     "gatsby": "^2.2.0 || ^3.0.0 || ^4.0.0",
-    "react": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.25",

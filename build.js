@@ -13,7 +13,7 @@ esbuild
     entryPoints: ["src/index.jsx"],
     outdir: ".",
     external: [
-      "@emotion/core",
+      "@emotion/react",
       "@sanity/image-url",
       "gatsby",
       "prop-types",

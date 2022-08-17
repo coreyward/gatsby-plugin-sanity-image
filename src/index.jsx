@@ -1,5 +1,5 @@
 // @jsx jsx
-import { jsx } from "@emotion/core"
+import { jsx } from "@emotion/react"
 import { Fragment, useEffect, useRef, useState } from "react"
 import PropTypes from "prop-types"
 import sanityImageUrl from "@sanity/image-url"
