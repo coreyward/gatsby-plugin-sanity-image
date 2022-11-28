@@ -18,6 +18,32 @@ export const builder = sanityImageUrl({
   projectId: __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__,
 })
 
+/**
+ * @typedef {object} SanityImageOptions
+ * @prop {boolean} __experimentalAspectRatio If set, `width` and `height` attributes are computed and set on the image based on the aspect ratio. Depending on the configuration used, these dimensions might not match the final image.
+ */
+
+/**
+ * Builds an <img> tag with the relevant properties from Sanity image data.
+ *
+ * @param {object} props
+ * @param {object} props.asset Object with either an `_id` or a `_ref` property representing the Sanity.io image `_id` and optionally metadata with a base-64 encoded preview image.
+ * @param {object} [props.hotspot] Image hotspot (focal point) data from Sanity
+ * @param {object} [props.crop] Image crop data from Sanity
+ * @param {object} [props.config] Optional configuration overrides passed to the Sanity image url builder
+ * @param {number} props.width Anticipated presentation width of the image. This is included in the parameters in the image url, and is used in determining the dimensions for the srcset entries
+ * @param {number} [props.height] Desired presentation height of the image. THis is included in the parameters in the image url, and used in determining the aspect ratio in some cases.
+ * @param {number} [props.htmlWidth] HTML Attribute passed through to the <img> tag without any changes
+ * @param {number} [props.htmlHeight] HTML Attribute passed through to the <img> tag without any changes
+ * @param {string} [props.alt] HTML Attribute passed through to the <img> tag without any changes
+ * @param {string} [props.className] HTML Attribute passed through to the <img> tag
+ * @param {string} [props.sizes] HTML Attribute passed through to the <img> tag without any changes
+ * @param {*} [props.__typename] Ignored property for improved ergonomics
+ * @param {*} [props._type] Ignored property for improved ergonomics
+ * @param {*} [props._key] Ignored property for improved ergonomics
+ * @param {*} [props.sources] Reserved (but ignored) property. May be used in the future.
+ * @param {SanityImageOptions} [props.options]
+ */
 const SanityImage = ({
   asset,
   hotspot,
