@@ -33,11 +33,18 @@ export const builder = sanityImageUrl({
  * @param {object} [props.config] Optional configuration overrides passed to the Sanity image url builder
  * @param {number} props.width Anticipated presentation width of the image. This is included in the parameters in the image url, and is used in determining the dimensions for the srcset entries
  * @param {number} [props.height] Desired presentation height of the image. THis is included in the parameters in the image url, and used in determining the aspect ratio in some cases.
- * @param {number} [props.htmlWidth] HTML Attribute passed through to the <img> tag without any changes
- * @param {number} [props.htmlHeight] HTML Attribute passed through to the <img> tag without any changes
- * @param {string} [props.alt] HTML Attribute passed through to the <img> tag without any changes
- * @param {string} [props.className] HTML Attribute passed through to the <img> tag
- * @param {string} [props.sizes] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").HTMLAttributes['className']} [props.className] HTML Attribute passed through to the <img> tag
+ * @param {import("react").ImgHTMLAttributes['width']} [props.htmlWidth] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['height']} [props.htmlHeight] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['alt']} [props.alt] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['sizes']} [props.sizes] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['crossOrigin']} [props.crossOrigin] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['decoding']} [props.decoding] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['loading']} [props.loading] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['referrerPolicy']} [props.referrerPolicy] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['role']} [props.role] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['srcSet']} [props.srcSet] HTML Attribute passed through to the <img> tag without any changes
+ * @param {import("react").ImgHTMLAttributes['useMap']} [props.useMap] HTML Attribute passed through to the <img> tag without any changes
  * @param {*} [props.__typename] Ignored property for improved ergonomics
  * @param {*} [props._type] Ignored property for improved ergonomics
  * @param {*} [props._key] Ignored property for improved ergonomics
@@ -338,6 +345,13 @@ SanityImage.propTypes = {
   // These will be passed through to the <img> tag without any changes
   htmlWidth: PropTypes.number,
   htmlHeight: PropTypes.number,
+  crossOrigin: PropTypes.string,
+  decoding: PropTypes.string,
+  loading: PropTypes.string,
+  referrerPolicy: PropTypes.string,
+  role: PropTypes.string,
+  srcSet: PropTypes.string,
+  useMap: PropTypes.string,
 
   // Default React Element Props
   alt: __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__
