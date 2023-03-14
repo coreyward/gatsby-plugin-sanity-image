@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-sanity-image",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "Gatsby plugin providing easy responsive behavior for Sanity-hosted images",
   "keywords": [
     "sanity",
