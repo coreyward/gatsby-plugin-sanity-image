@@ -136,6 +136,7 @@ exports.onPreExtractQueries = async (
 exports.onCreateWebpackConfig = (
   { stage, rules, loaders, plugins, actions },
   {
+    baseUrl,
     dataset,
     projectId,
     altFieldName,
@@ -147,6 +148,7 @@ exports.onCreateWebpackConfig = (
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
+        __GATSBY_PLUGIN_SANITY_IMAGE__BASE_URL__: JSON.stringify(baseUrl),
         __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: JSON.stringify(dataset),
         __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: JSON.stringify(projectId),
         __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: JSON.stringify(altFieldName),

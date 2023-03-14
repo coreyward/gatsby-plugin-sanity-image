@@ -14,6 +14,7 @@ export const DEFAULT_IMAGE_CONFIG =
   }
 
 export const builder = sanityImageUrl({
+  baseUrl: __GATSBY_PLUGIN_SANITY_IMAGE__BASE_URL__,
   dataset: __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__,
   projectId: __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__,
 })

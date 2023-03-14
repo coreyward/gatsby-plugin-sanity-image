@@ -17,6 +17,7 @@ module.exports = {
     },
   },
   globals: {
+    __GATSBY_PLUGIN_SANITY_IMAGE__BASE_URL__: "readonly",
     __GATSBY_PLUGIN_SANITY_IMAGE__DATASET__: "readonly",
     __GATSBY_PLUGIN_SANITY_IMAGE__PROJECTID__: "readonly",
     __GATSBY_PLUGIN_SANITY_IMAGE__ALT_FIELD__: "readonly",
