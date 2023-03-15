@@ -10,15 +10,9 @@ esbuild
   .build({
     bundle: true,
     minify: false,
-    entryPoints: ["src/index.jsx"],
-    outdir: ".",
-    external: [
-      "@emotion/react",
-      "@sanity/image-url",
-      "gatsby",
-      "prop-types",
-      "react",
-    ],
+    entryPoints: ["src/index.tsx"],
+    outdir: "dist",
+    external: ["sanity-image", "react"],
 
     // JSX factory is used to support Emotion `css` prop
     jsxFactory: "jsx",

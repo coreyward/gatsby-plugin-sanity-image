@@ -1,11 +1,25 @@
 {
-  "files": ["./src/index.jsx"],
-  "exclude": [],
+  "files": ["src/index.tsx"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": "src",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "./",
-    "esModuleInterop": true
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "target": "ES2019"
   }
 }
