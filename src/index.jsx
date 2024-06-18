@@ -146,8 +146,14 @@ const SanityImage = ({
     }
   }
 
-  if (props.htmlWidth) props.width = props.htmlWidth
-  if (props.htmlHeight) props.height = props.htmlHeight
+  if (props.htmlWidth) {
+    props.width = props.htmlWidth
+    delete props.htmlWidth
+  }
+  if (props.htmlHeight) {
+    props.height = props.htmlHeight
+    delete props.htmlHeight
+  }
 
   const Image = preview ? ImageWithPreview : "img"
 
