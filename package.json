@@ -18,6 +18,10 @@
   "main": "index.js",
   "types": "index.d.ts",
   "repository": "https://github.com/coreyward/gatsby-plugin-sanity-image",
+  "homepage": "https://github.com/coreyward/gatsby-plugin-sanity-image#readme",
+  "bugs": {
+    "url": "https://github.com/coreyward/gatsby-plugin-sanity-image/issues"
+  },
   "author": "Corey Ward <corey@hey.com>",
   "license": "MPL-2.0",
   "files": [
